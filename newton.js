@@ -1,7 +1,25 @@
 'use strict';
 
-var x = [-3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777];
-var y = [10, -2, 0, -7, 7, 0, 0];
+var exec = 0;
+
+var x = [];
+var y = [];
+
+/**
+ * Wich task to execute? By default - the second one
+ */
+switch(exec) {
+  case 1:
+    for(var i = -2; i <= 2; i += 0.5) {
+      x.push(i);
+      y.push(Math.sin(5 * i) * Math.pow(Math.E, i));
+    }
+    break;
+  default:
+    var x = [-3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777];
+    var y = [10, -2, 0, -7, 7, 0, 0];
+    break;
+}
 
 var delt = []; while(delt.push([]) < y.length - 1);
 
