@@ -90,6 +90,21 @@ function generateForNewton() {
 
   return values;
 }
+var showGraph = function() {
+
+	var d = [];
+	
+	d.push({data: [[-3.2, 10], [-2.1, -2], [-0.4, 0], [0.7, -7], [2, 7], [2.5, 0], [2.777, 0]], points: {show: true}});
+	var d1 = [];
+	for (var i = -3.2; i < 2.8; i += 0.1) {
+		d1.push([i, newton(i)]);
+	}
+	d.push(d1);
+
+	$.plot("#newtongraph", d);
+
+}
+$(function(){showGraph();});
 
 function printDelts() {
   var html = '<h1>Newton table of delts</h1>';
@@ -110,4 +125,4 @@ function printDelts() {
   document.getElementById('newton').innerHTML = html;
 }
 
-printDelts();
+$(function(){printDelts();});

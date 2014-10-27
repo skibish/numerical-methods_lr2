@@ -169,6 +169,45 @@ function mnk(K, N) {
 	return polinoms;
 }
 
+
+/**
+* funkcija dostajuschaja Y tochku v zadanoi tochke X (prisudstvuet polinom)
+*/
+function getYpoint(polinom, X) {
+	var y = 0;
+
+	for(var i = 0; i < polinom.length; i++) {
+		if(i == 0) {
+			y += polinom[i];
+		} else if(i == 1) {
+			y += polinom[i] * X;
+		} else {
+			y += polinom[i] * Math.pow(X, i);
+		}
+	}
+	return y;
+}
+
+var result = getPolinom(2, 4, 7);
+var showMNKGraph = function() {
+
+	var d = [];
+	
+	d.push({data: [[-3.2, 10], [-2.1, -2], [-0.4, 0], [0.7, -7], [2, 7], [2.5, 0], [2.777, 0]], points: {show: true}});
+	
+	for (var nr = 1; nr < 7; nr++) {
+		var polinom = getPolinom(2, nr, 7);
+		var d1 = [];
+		for (var i = -3.2; i < 2.8; i += 0.1) {
+			d1.push([i, getYpoint(polinom, i)]);
+		}
+		d.push(d1);
+	}
+
+	$.plot("#graph", d);
+
+}
+$(function(){showMNKGraph();});
 /**
 * vivod rezultata
 */
@@ -236,24 +275,4 @@ function outputResult(polinoms, K, N) {
 	html += '<h3>' + val + '</h3>';
 	document.getElementById('mnk').innerHTML = html;
 }
-
-/**
-* funkcija dostajuschaja Y tochku v zadanoi tochke X (prisudstvuet polinom)
-*/
-function getYpoint(polinom, X) {
-	var y = 0;
-
-	for(var i = 0; i < polinom.length; i++) {
-		if(i == 0) {
-			y += polinom[i];
-		} else if(i == 1) {
-			y += polinom[i] * X;
-		} else {
-			y += polinom[i] * Math.pow(X, i);
-		}
-	}
-	return y;
-}
-
-var result = getPolinom(2, 4, 7);
-outputResult(result, 4, 7);
+$(function(){outputResult(result, 4, 7);});

@@ -4,20 +4,34 @@
 <head>
     <title>Approximation and Interpolation</title>
     <meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css">
+	<script language="javascript" type="text/javascript" src="jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js"></script>
+    <script src="least-squares.js" type="text/javascript"></script>
+    <script src="newton.js" type="text/javascript"></script>
 </head>
 <style type="text/css">span.superscript { vertical-align: super; }</style>
 <body>
+	<div id="content">
+	MNK
+		<div class="demo-container">
+			<div id="graph" class="demo-placeholder"></div>
+		</div>
+	</div>
+	<div id="content">
+	Newton
+		<div class="demo-container">
+			<div id="newtongraph" class="demo-placeholder"></div>
+		</div>
+	</div>
     <div class="container" style="margin-top: 20px;">
       <div id="mnk"></div>
       <div id="newton"></div>
       <div class="canvas"><span id="demo"></span></div>
     </div>
-
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.1.1/katex.min.js"></script>
-    <script src="least-squares.js" type="text/javascript"></script>
-    <script src="newton.js" type="text/javascript"></script>
 </body>
 
 </html>
