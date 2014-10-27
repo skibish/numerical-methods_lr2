@@ -72,3 +72,24 @@ function generateForNewton() {
 
   return values;
 }
+
+function printDelts() {
+  var html = '<h1>Newton table of delts</h1>';
+  var tWidth = delt.length;
+  html += '<table><thead><tr>';
+  for (var i = 0; i < tWidth; i++) {
+    html += '<th>'+i+'</th>';
+  }
+  html += '</tr></thead>';
+  for(var j = 0; j < tWidth; j++) {
+    html += '<tr>';
+    for(var i = 0; i < tWidth; i++) {
+      html += '<td>'+(delt[i][j] === undefined ? '' : delt[i][j])+'</td>';
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  document.getElementById('newton').innerHTML = html;
+}
+
+printDelts();
