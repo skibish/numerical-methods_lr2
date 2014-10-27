@@ -81,7 +81,7 @@ function range(start, stop, step) {
 */
 function createMultiArray(K) {
 	var matrix = [];
-	for(var i = 0; i < K; i++) {
+	for(var i = 0; i < K + 1; i++) {
 		matrix.push([]);
 	}
 	return matrix;
@@ -93,7 +93,7 @@ function createMultiArray(K) {
 */
 function createEmptyArray(K) {
 	var matrix = [];
-	for(var i = 0; i < K; i++) {
+	for(var i = 0; i < K + 1; i++) {
 		matrix[i] = 0;
 	}
 	return matrix;
@@ -105,8 +105,8 @@ function createEmptyArray(K) {
 function mnkMatrix(values, K, N) {
 	var fx = createMultiArray(K), b = createEmptyArray(K);
 
-	for(var i = 0; i < K; i++) {
-		for(var j = 0; j < K; j++) {
+	for(var i = 0; i < K + 1; i++) {
+		for(var j = 0; j < K + 1; j++) {
 			fx[i][j] = 0;
 			for(var k = 0; k < N; k++) {
 				fx[i][j] += Math.pow(values[0][k], (i+j));
@@ -114,7 +114,7 @@ function mnkMatrix(values, K, N) {
 		}
 	}
 
-	for(var i = 0; i < K; i++) {
+	for(var i = 0; i < K + 1; i++) {
 		for(var j = 0; j < N; j++) {
 			b[i] += (Math.pow(values[0][j], i) * values[1][j]);
 		}
@@ -127,8 +127,8 @@ function mnkMatrix(values, K, N) {
 * sozdatj trehugolnuju matricu
 */
 function mainGaussWithZeros(mnkMatrixValues, K) {
-	for (var i = 0; i < K; i++) {
-		for (var j = i + 1; j < K; j++) {
+	for (var i = 0; i < K + 1; i++) {
+		for (var j = i + 1; j < K + 1; j++) {
 			var temp3 = -mnkMatrixValues[0][j][i] / mnkMatrixValues[0][i][i];
 			for (var k = i; k < K; k++) {
 				mnkMatrixValues[0][j][k] = mnkMatrixValues[0][j][k] + temp3 * mnkMatrixValues[0][i][k];
@@ -144,9 +144,9 @@ function mainGaussWithZeros(mnkMatrixValues, K) {
 */
 function reverseGauss(mnkMatrixValues, K) {
 	var polinoms = createEmptyArray(K);
-	for(var i = K - 1; i >= 0; i--){
+	for(var i = (K - 1) + 1; i >= 0; i--){
 		var sum = 0;
-		for(var j = i; j < K; j++){
+		for(var j = i; j < K + 1; j++){
 			sum += mnkMatrixValues[0][i][j] * polinoms[j];
 		}
 
@@ -175,9 +175,9 @@ function mnk(K, N) {
 function outputResult(polinoms, K, N) {
 	var html = '<table class="table table-striped table-bordered">';
 
-	for(var i = 0; i < K; i++) {
+	for(var i = 0; i < K + 1; i++) {
 		html += '<tr>';
-		for(var j = 0; j < K; j++) {
+		for(var j = 0; j < K + 1; j++) {
 			html += '<td>' + matrixes[0][i][j] + '</td>';
 		}
 		html += '<td class="danger">' + matrixes[1][i] + '</td>';
@@ -192,7 +192,7 @@ function outputResult(polinoms, K, N) {
 		<tr>										\
 	';
 
-	for(var u = 0; u < K; u++) {
+	for(var u = 0; u < K + 1; u++) {
 		html += '<td>' + polinoms[u] + '</td>';
 	}
 	html += '										\
@@ -224,7 +224,7 @@ function outputResult(polinoms, K, N) {
 	';
 
 	var val = '';
-	for(var x = 0; x < K; x++) {
+	for(var x = 0; x < K + 1; x++) {
 		if(x == 0) {
 			val += polinoms[x];
 		} else if(x == 1) {
