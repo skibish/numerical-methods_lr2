@@ -94,7 +94,7 @@ function generateForNewton() {
 function printDelts() {
   var html = '<h1>Newton table of delts</h1>';
   var tWidth = delt.length;
-  html += '<table><thead><tr>';
+  html += '<table class="table table-striped table-bordered"><thead><tr>';
   for (var i = 0; i < tWidth; i++) {
     html += '<th>'+i+'</th>';
   }

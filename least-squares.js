@@ -37,7 +37,7 @@ function exerciseOne() {
 */
 function exerciseTwo() {
 	var table = [[],[]];
-	
+
 	//x values
 	table[0][0] = -3.2;
 	table[0][1] = -2.1;
@@ -46,7 +46,7 @@ function exerciseTwo() {
 	table[0][4] = 2;
 	table[0][5] = 2.5;
 	table[0][6] = 2.777;
-	
+
 	//y values
 	table[1][0] = 10;
 	table[1][1] = -2;
@@ -55,7 +55,7 @@ function exerciseTwo() {
 	table[1][4] = 7;
 	table[1][5] = 0;
 	table[1][6] = 0;
-	
+
 	return table;
 }
 
@@ -66,7 +66,7 @@ function exerciseTwo() {
 function range(start, stop, step) {
 	var n = start, outputRange = [], i = 1;
 	outputRange[0] = start;
-	
+
 	while(n < stop) {
 		n += step;
 		outputRange[i] = n;
@@ -104,7 +104,7 @@ function createEmptyArray(K) {
 */
 function mnkMatrix(values, K, N) {
 	var fx = createMultiArray(K), b = createEmptyArray(K);
-	
+
 	for(var i = 0; i < K; i++) {
 		for(var j = 0; j < K; j++) {
 			fx[i][j] = 0;
@@ -113,7 +113,7 @@ function mnkMatrix(values, K, N) {
 			}
 		}
 	}
-	
+
 	for(var i = 0; i < K; i++) {
 		for(var j = 0; j < N; j++) {
 			b[i] += (Math.pow(values[0][j], i) * values[1][j]);
@@ -123,7 +123,7 @@ function mnkMatrix(values, K, N) {
 }
 
 /**
-* funkcija prjamogo hoda gausa + srazu zhe zapolnjaet matricu nuljami stobi 
+* funkcija prjamogo hoda gausa + srazu zhe zapolnjaet matricu nuljami stobi
 * sozdatj trehugolnuju matricu
 */
 function mainGaussWithZeros(mnkMatrixValues, K) {
@@ -149,7 +149,7 @@ function reverseGauss(mnkMatrixValues, K) {
 		for(var j = i; j < K; j++){
 			sum += mnkMatrixValues[0][i][j] * polinoms[j];
 		}
-		
+
 		polinoms[i] = (mnkMatrixValues[1][i] - sum) / mnkMatrixValues[0][i][i];
 	}
 	return polinoms;
@@ -158,62 +158,40 @@ function reverseGauss(mnkMatrixValues, K) {
 /**
 * funkcija, kotoraja snachalo sostavljaet matricu najmenshih kvadratov
 * potom metodom iskljuchenija gausa nahodit polinomi
-* 
+*
 */
 function mnk(K, N) {
 	matrixes = mnkMatrix(exercise, K, N);
 	matrixes = mainGaussWithZeros(matrixes, K);
-	
+
 	var polinoms = reverseGauss(matrixes, K);
-	
+
 	return polinoms;
 }
 
-/** 
+/**
 * vivod rezultata
 */
 function outputResult(polinoms, K, N) {
-	var html = '								\
-		<style type="text/css"> 				\
-			table {								\
-				width: 500px;					\
-				border: 1px solid green;		\
-			}									\
-			td {								\
-				border: 1px solid green; 		\
-				width: 20px;					\
-				padding: 5px;					\
-			}									\
-			h3, p {								\
-				padding: 0;						\
-				margin: 0;						\
-			}									\
-			span.superscript {					\
-				vertical-align: super;			\
-			}									\
-		</style>								\
-												\
-		<h3>System at a given order:</h3>		\
-		<table cellspacing="0" cellpadding="0"> \
-	';
-	
+	var html = '<table class="table table-striped table-bordered">';
+
 	for(var i = 0; i < K; i++) {
 		html += '<tr>';
 		for(var j = 0; j < K; j++) {
 			html += '<td>' + matrixes[0][i][j] + '</td>';
 		}
-		html += '<td style="background-color: red;">' + matrixes[1][i] + '</td>';
+		html += '<td class="danger">' + matrixes[1][i] + '</td>';
 		html += '</tr>';
 	}
-	
+
 	html += '										\
 		</table>									\
 		<br />										\
-		<h3>Coefficients <i>a</i></h3>\
-		<table cellspacing="0" cellpadding="0">		\
+		<h1>Coefficients <i>a</i></h1>\
+		<table class="table table-striped table-bordered">		\
 		<tr>										\
 	';
-	
+
 	for(var u = 0; u < K; u++) {
 		html += '<td>' + polinoms[u] + '</td>';
 	}
@@ -221,8 +199,8 @@ function outputResult(polinoms, K, N) {
 		</tr>										\
 		</table>									\
 		<br />										\
-		<h3>Y values at a given X value</h3>						\
-		<table cellspacing="0" cellpadding="0">		\
+		<h1>Y values at a given X value</h1>						\
+		<table class="table table-striped table-bordered">		\
 	';
 	var pointY = [];
 	for(var xx = 0; xx < exercise[0].length; xx++) {
@@ -242,9 +220,9 @@ function outputResult(polinoms, K, N) {
 	html += '							\
 		</table>						\
 		<br />							\
-		<h3>Approximation order</h3>	\
+		<h1>Approximation order</h1>	\
 	';
-	
+
 	var val = '';
 	for(var x = 0; x < K; x++) {
 		if(x == 0) {
@@ -255,7 +233,7 @@ function outputResult(polinoms, K, N) {
 			val += (polinoms[x] > 0 ? ' + ' : ' ') + polinoms[x] + 'x<span class="superscript">' + x + '</span> ';
 		}
 	}
-	html += '<p>' + val + '</p>';
+	html += '<h3>' + val + '</h3>';
 	document.getElementById('mnk').innerHTML = html;
 }
 
@@ -264,7 +242,7 @@ function outputResult(polinoms, K, N) {
 */
 function getYpoint(polinom, X) {
 	var y = 0;
-	
+
 	for(var i = 0; i < polinom.length; i++) {
 		if(i == 0) {
 			y += polinom[i];
