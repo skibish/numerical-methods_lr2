@@ -1,4 +1,4 @@
-var K = 6, N = 7, exerciseNumber = 2, exercise, matrixes, fx = createMultiArray(), b = createEmptyArray(), a = createEmptyArray();
+var K = 6, N = 7, exerciseNumber = 2, exercise, fx = createMultiArray(), b = createEmptyArray();
 
 function executeMNK() {
 	switch(exerciseNumber) {
@@ -10,8 +10,8 @@ function executeMNK() {
 		break;
 	}
 	
-	mnk();
-	outputResult();
+	var result = mnk();
+	outputResult(result);
 }
 
 function exerciseOne() {
@@ -70,7 +70,7 @@ function filledMatrix(values) {
 	return [fx, b];
 }
 
-function mainGaussWithZeros() {
+function mainGaussWithZeros(matrixes) {
 	for (var i = 0; i < K; i++) {
 		for (var j = i + 1; j < K; j++) {
 			var temp3 = -matrixes[0][j][i] / matrixes[0][i][i];
@@ -83,22 +83,24 @@ function mainGaussWithZeros() {
 	return matrixes;
 }
 
-function reverseGauss() {	
+function reverseGauss(matrixes) {
+	var a = createEmptyArray();
 	for(var i = K - 1; i >= 0; i--){
 		var sum = 0;
 		for(var j = i; j < K; j++){
 			sum += matrixes[0][i][j] * a[j];
 		}
-		
 		a[i] = (matrixes[1][i] - sum) / matrixes[0][i][i];
 	}
-	return matrixes;
+	return [matrixes, a];
 }
 
 function mnk() {
-	matrixes = filledMatrix(exercise);
+	var matrixes = filledMatrix(exercise);
 	matrixes = mainGaussWithZeros(matrixes);
 	matrixes = reverseGauss(matrixes);
+	
+	return matrixes;
 }
 
 function range(start, stop, step) {
@@ -129,7 +131,7 @@ function createEmptyArray() {
 	return matrix;
 }
 
-function outputResult() {
+function outputResult(result) {
 	var html = '								\
 		<style type="text/css"> 				\
 			table {								\
@@ -157,9 +159,9 @@ function outputResult() {
 	for(var i = 0; i < K; i++) {
 		html += '<tr>';
 		for(var j = 0; j < K; j++) {
-			html += '<td>' + matrixes[0][i][j] + '</td>';
+			html += '<td>' + result[0][0][i][j] + '</td>';
 		}
-		html += '<td style="background-color: red;">' + matrixes[1][i] + '</td>';
+		html += '<td style="background-color: red;">' + result[0][1][i] + '</td>';
 		html += '</tr>';
 	}
 	
@@ -172,7 +174,7 @@ function outputResult() {
 	';
 	
 	for(var u = 0; u < K; u++) {
-		html += '<td>' + a[u] + '</td>';
+		html += '<td>' + result[1][u] + '</td>';
 	}
 	html += '										\
 		</tr>										\
@@ -197,11 +199,11 @@ function outputResult() {
 	var val = '';
 	for(var x = 0; x < K; x++) {
 		if(x == 0) {
-			val += a[x];
+			val += result[1][x];
 		} else if(x == 1) {
-			val += (a[x] > 0 ? ' + ' : ' ') + a[x] + 'x ';
+			val += (result[1][x] > 0 ? ' + ' : ' ') + result[1][x] + 'x ';
 		} else {
-			val += (a[x] > 0 ? ' + ' : ' ') + a[x] + 'x<span class="superscript">' + x + '</span> ';
+			val += (result[1][x] > 0 ? ' + ' : ' ') + result[1][x] + 'x<span class="superscript">' + x + '</span> ';
 		}
 	}
 	html += '<p>' + val + '</p>';
