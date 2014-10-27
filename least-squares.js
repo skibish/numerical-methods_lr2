@@ -11,7 +11,8 @@ function executeMNK() {
 	}
 	
 	var result = mnk();
-	outputResult(result);
+	
+	return result;
 }
 
 function exerciseOne() {
@@ -210,4 +211,5 @@ function outputResult(result) {
 	document.getElementById('result').innerHTML = html;
 }
 
-executeMNK();
+var mnk = executeMNK();
+outputResult(mnk);
