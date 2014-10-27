@@ -5,6 +5,7 @@ var y = [10, -2, 0, -7, 7, 0, 0];
 
 /**
  * Calculate coefficients of Newton polynomial
+ *
  * @param  {Array}  x    - Array of x points
  * @param  {Array}  y    - Array of y points
  * x and y must be the same length
@@ -29,6 +30,7 @@ var c = coeff(x, y);
 
 /**
  * Calculate x value with Newton polynomial
+ *
  * @param  {Number} xtc  - x point to calculate value for
  * @return {Number}      - y
  */
@@ -49,6 +51,7 @@ function newton(xtc) {
 
 /**
  * Generate many point in range [-4, 3.5] with step 0.1
+ *
  * @return {Array, Array} - return two arrays: a[0] are x values and a[1] are y values.
  */
 function generateForNewton() {
