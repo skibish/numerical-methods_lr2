@@ -3,6 +3,8 @@
 var x = [-3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777];
 var y = [10, -2, 0, -7, 7, 0, 0];
 
+var delt = []; while(delt.push([]) < y.length - 1);
+
 /**
  * Calculate coefficients of Newton polynomial
  *
@@ -17,11 +19,16 @@ function coeff(x, y) {
 
   c[0] = y[0];
 
-  for (var j = 1; j < n; j++)
+  for (var j = 1; j < n; j++) {
     for (var i = 0; i < n - j; i++) {
       y[i] = (y[i + 1] - y[i]) / (x[i + j] - x[i]);
       c[j] = y[0];
+
+      delt[j-1][i] = y[i];
     }
+  }
+
+  delt[0][0] = c[0];
 
   return c;
 }
