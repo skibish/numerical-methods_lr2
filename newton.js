@@ -8,9 +8,9 @@ var y = [];
 /**
  * Wich task to execute? By default - the second one
  */
-switch(exec) {
+switch (exec) {
   case 1:
-    for(var i = -2; i <= 2; i += 0.5) {
+    for (var i = -2; i <= 2; i += 0.5) {
       x.push(i);
       y.push(Math.sin(5 * i) * Math.pow(Math.E, i));
     }
@@ -21,7 +21,8 @@ switch(exec) {
     break;
 }
 
-var delt = []; while(delt.push([]) < y.length - 1);
+var delt = [];
+while (delt.push([]) < y.length - 1);
 
 /**
  * Calculate coefficients of Newton polynomial
@@ -42,7 +43,7 @@ function coeff(x, y) {
       y[i] = (y[i + 1] - y[i]) / (x[i + j] - x[i]);
       c[j] = y[0];
 
-      delt[j-1][i] = y[i];
+      delt[j - 1][i] = y[i];
     }
   }
 
@@ -81,7 +82,10 @@ function newton(xtc) {
  */
 function generateForNewton() {
 
-  var values = [[],[]];
+  var values = [
+    [],
+    []
+  ];
 
   for (var i = -4; i < 3.5; i += 0.1) {
     values[0].push(i);
@@ -90,39 +94,22 @@ function generateForNewton() {
 
   return values;
 }
-var showGraph = function() {
-
-	var d = [];
-	
-	d.push({data: [[-3.2, 10], [-2.1, -2], [-0.4, 0], [0.7, -7], [2, 7], [2.5, 0], [2.777, 0]], points: {show: true}});
-	var d1 = [];
-	for (var i = -3.2; i < 2.8; i += 0.1) {
-		d1.push([i, newton(i)]);
-	}
-	d.push(d1);
-
-	$.plot("#newtongraph", d);
-
-}
-$(function(){showGraph();});
 
 function printDelts() {
   var html = '<h1>Newton table of delts</h1>';
   var tWidth = delt.length;
   html += '<table class="table table-striped table-bordered"><thead><tr>';
   for (var i = 0; i < tWidth; i++) {
-    html += '<th>'+i+'</th>';
+    html += '<th>' + i + '</th>';
   }
   html += '</tr></thead>';
-  for(var j = 0; j < tWidth; j++) {
+  for (var j = 0; j < tWidth; j++) {
     html += '<tr>';
-    for(var i = 0; i < tWidth; i++) {
-      html += '<td>'+(delt[i][j] === undefined ? '' : delt[i][j])+'</td>';
+    for (var i = 0; i < tWidth; i++) {
+      html += '<td>' + (delt[i][j] === undefined ? '' : delt[i][j]) + '</td>';
     }
     html += '</tr>';
   }
   html += '</table>';
   document.getElementById('newton').innerHTML = html;
 }
-
-$(function(){printDelts();});
