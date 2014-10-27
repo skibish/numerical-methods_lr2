@@ -1,6 +1,9 @@
-var K = 6, N = 7, exerciseNumber = 2, exercise, fx = createMultiArray(), b = createEmptyArray();
+var exercise, matrixes;
 
-function executeMNK() {
+/**
+* osnovnaja funkcija, kotoraja vozvrashaet polinom
+*/
+function getPolinom(exerciseNumber, K, N) {
 	switch(exerciseNumber) {
 		case 1:
 			exercise = exerciseOne();
@@ -9,12 +12,12 @@ function executeMNK() {
 			exercise = exerciseTwo();
 		break;
 	}
-	
-	var result = mnk();
-	
-	return result;
+	return mnk(K, N);
 }
 
+/**
+* zadanie odin iz laboratorki
+*/
 function exerciseOne() {
 	var outputValues = [[], []], y, e = 2.71828;
 	//poluchaem x znachenija i y znachenija
@@ -29,6 +32,9 @@ function exerciseOne() {
 	return outputValues;
 }
 
+/**
+* zadanie dva iz laboratorki
+*/
 function exerciseTwo() {
 	var table = [[],[]];
 	
@@ -53,7 +59,52 @@ function exerciseTwo() {
 	return table;
 }
 
-function filledMatrix(values) {
+/**
+* funckija dlja togo stobi vivesti
+* kakuenibudj oblastj
+*/
+function range(start, stop, step) {
+	var n = start, outputRange = [], i = 1;
+	outputRange[0] = start;
+	
+	while(n < stop) {
+		n += step;
+		outputRange[i] = n;
+		i++;
+	}
+	return outputRange;
+}
+
+/**
+* toze samaja funkcija sto i createEmptyArray(), no tolko dlja
+* dvuh mernogo masiva i bez 0
+*/
+function createMultiArray(K) {
+	var matrix = [];
+	for(var i = 0; i < K; i++) {
+		matrix.push([]);
+	}
+	return matrix;
+}
+
+/**
+* sozdaet pustoi massiv s 0, nuzna dlja togo stobi v javascripte
+* nebilo oshibok s massivami
+*/
+function createEmptyArray(K) {
+	var matrix = [];
+	for(var i = 0; i < K; i++) {
+		matrix[i] = 0;
+	}
+	return matrix;
+}
+
+/**
+* funkcija postroenija matrici najmenshih kvadratov
+*/
+function mnkMatrix(values, K, N) {
+	var fx = createMultiArray(K), b = createEmptyArray(K);
+	
 	for(var i = 0; i < K; i++) {
 		for(var j = 0; j < K; j++) {
 			fx[i][j] = 0;
@@ -71,68 +122,57 @@ function filledMatrix(values) {
 	return [fx, b];
 }
 
-function mainGaussWithZeros(matrixes) {
+/**
+* funkcija prjamogo hoda gausa + srazu zhe zapolnjaet matricu nuljami stobi 
+* sozdatj trehugolnuju matricu
+*/
+function mainGaussWithZeros(mnkMatrixValues, K) {
 	for (var i = 0; i < K; i++) {
 		for (var j = i + 1; j < K; j++) {
-			var temp3 = -matrixes[0][j][i] / matrixes[0][i][i];
+			var temp3 = -mnkMatrixValues[0][j][i] / mnkMatrixValues[0][i][i];
 			for (var k = i; k < K; k++) {
-				matrixes[0][j][k] = matrixes[0][j][k] + temp3 * matrixes[0][i][k];
+				mnkMatrixValues[0][j][k] = mnkMatrixValues[0][j][k] + temp3 * mnkMatrixValues[0][i][k];
 			}
-			matrixes[1][j] = matrixes[1][j] + temp3 * matrixes[1][i];
+			mnkMatrixValues[1][j] = mnkMatrixValues[1][j] + temp3 * mnkMatrixValues[1][i];
 		}
 	}
-	return matrixes;
+	return mnkMatrixValues;
 }
 
-function reverseGauss(matrixes) {
-	var a = createEmptyArray();
+/**
+* obratnij hod gausa, dostaem polinomi i vozvrashaem rezultat
+*/
+function reverseGauss(mnkMatrixValues, K) {
+	var polinoms = createEmptyArray(K);
 	for(var i = K - 1; i >= 0; i--){
 		var sum = 0;
 		for(var j = i; j < K; j++){
-			sum += matrixes[0][i][j] * a[j];
+			sum += mnkMatrixValues[0][i][j] * polinoms[j];
 		}
-		a[i] = (matrixes[1][i] - sum) / matrixes[0][i][i];
+		
+		polinoms[i] = (mnkMatrixValues[1][i] - sum) / mnkMatrixValues[0][i][i];
 	}
-	return [matrixes, a];
+	return polinoms;
 }
 
-function mnk() {
-	var matrixes = filledMatrix(exercise);
-	matrixes = mainGaussWithZeros(matrixes);
-	matrixes = reverseGauss(matrixes);
+/**
+* funkcija, kotoraja snachalo sostavljaet matricu najmenshih kvadratov
+* potom metodom iskljuchenija gausa nahodit polinomi
+* 
+*/
+function mnk(K, N) {
+	matrixes = mnkMatrix(exercise, K, N);
+	matrixes = mainGaussWithZeros(matrixes, K);
 	
-	return matrixes;
-}
-
-function range(start, stop, step) {
-	var n = start, outputRange = [], i = 1;
-	outputRange[0] = start;
+	var polinoms = reverseGauss(matrixes, K);
 	
-	while(n < stop) {
-		n += step;
-		outputRange[i] = n;
-		i++;
-	}
-	return outputRange;
+	return polinoms;
 }
 
-function createMultiArray() {
-	var matrix = [];
-	for(var i = 0; i < K; i++) {
-		matrix.push([]);
-	}
-	return matrix;
-}
-
-function createEmptyArray() {
-	var matrix = [];
-	for(var i = 0; i < K; i++) {
-		matrix[i] = 0;
-	}
-	return matrix;
-}
-
-function outputResult(result) {
+/** 
+* vivod rezultata
+*/
+function outputResult(polinoms, K, N) {
 	var html = '								\
 		<style type="text/css"> 				\
 			table {								\
@@ -160,9 +200,9 @@ function outputResult(result) {
 	for(var i = 0; i < K; i++) {
 		html += '<tr>';
 		for(var j = 0; j < K; j++) {
-			html += '<td>' + result[0][0][i][j] + '</td>';
+			html += '<td>' + matrixes[0][i][j] + '</td>';
 		}
-		html += '<td style="background-color: red;">' + result[0][1][i] + '</td>';
+		html += '<td style="background-color: red;">' + matrixes[1][i] + '</td>';
 		html += '</tr>';
 	}
 	
@@ -175,19 +215,27 @@ function outputResult(result) {
 	';
 	
 	for(var u = 0; u < K; u++) {
-		html += '<td>' + result[1][u] + '</td>';
+		html += '<td>' + polinoms[u] + '</td>';
 	}
 	html += '										\
 		</tr>										\
 		</table>									\
 		<br />										\
-		<h3>X and Y values</h3>						\
+		<h3>Y values at a given X value</h3>						\
 		<table cellspacing="0" cellpadding="0">		\
 	';
-	for(var y = 0; y < 2; y++) {
-		html += '<tr><td>' + (y == 0 ? 'X' : 'Y') + '</td>';
-		for(var t = 0; t < N; t++) {
-			html += '<td>' + exercise[y][t] + '</td>';
+	var pointY = [];
+	for(var xx = 0; xx < exercise[0].length; xx++) {
+		pointY[xx] = getYpoint(result, xx);
+	}
+	for(var o = 0; o < 2; o++) {
+		html += '<tr><td>' + (o == 0 ? 'X' : 'Y') + '</td>';
+		for(var t = 0; t < exercise[0].length; t++) {
+			if(o == 0) {
+				html += '<td>' + exercise[0][t] + '</td>';
+			} else {
+				html += '<td>' + pointY[t] + '</td>';
+			}
 		}
 		html += '</tr>';
 	}
@@ -200,16 +248,34 @@ function outputResult(result) {
 	var val = '';
 	for(var x = 0; x < K; x++) {
 		if(x == 0) {
-			val += result[1][x];
+			val += polinoms[x];
 		} else if(x == 1) {
-			val += (result[1][x] > 0 ? ' + ' : ' ') + result[1][x] + 'x ';
+			val += (polinoms[x] > 0 ? ' + ' : ' ') + polinoms[x] + 'x ';
 		} else {
-			val += (result[1][x] > 0 ? ' + ' : ' ') + result[1][x] + 'x<span class="superscript">' + x + '</span> ';
+			val += (polinoms[x] > 0 ? ' + ' : ' ') + polinoms[x] + 'x<span class="superscript">' + x + '</span> ';
 		}
 	}
 	html += '<p>' + val + '</p>';
-	document.getElementById('result').innerHTML = html;
+	document.getElementById('mnk').innerHTML = html;
 }
 
-var mnk = executeMNK();
-outputResult(mnk);
+/**
+* funkcija dostajuschaja Y tochku v zadanoi tochke X (prisudstvuet polinom)
+*/
+function getYpoint(polinom, X) {
+	var y = 0;
+	
+	for(var i = 0; i < polinom.length; i++) {
+		if(i == 0) {
+			y += polinom[i];
+		} else if(i == 1) {
+			y += polinom[i] * X;
+		} else {
+			y += polinom[i] * Math.pow(X, i);
+		}
+	}
+	return y;
+}
+
+var result = getPolinom(2, 4, 7);
+outputResult(result, 4, 7);
