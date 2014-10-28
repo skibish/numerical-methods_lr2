@@ -14,15 +14,34 @@ switch (exec) {
       x.push(i);
       y.push(Math.sin(5 * i) * Math.pow(Math.E, i));
     }
+    var xy = correctData(x,y);
     break;
   default:
     var x = [-3.2, -2.1, 0.4, 0.7, 2, 2.5, 2.777];
     var y = [10, -2, 0, -7, 7, 0, 0];
+    var xy = correctData(x,y);
     break;
 }
 
 var delt = [];
 while (delt.push([]) < y.length - 1);
+
+/**
+ * Get correct format for graph
+ * @param  {Array} x - Array of x points
+ * @param  {Array} y - Array of y points
+ * @return {Array}   - Correct formatted points
+ */
+function correctData(x,y) {
+
+  var xy = [];
+
+  for(var i = 0; i < y.length; i++) {
+    xy.push([x[i],y[i]]);
+  }
+
+  return xy
+}
 
 /**
  * Calculate coefficients of Newton polynomial
