@@ -27,6 +27,12 @@ span.superscript {
         </div>
     </div>
     <div id="content">
+        MNK Error
+        <div class="demo-container">
+            <div id="errorgraph" class="demo-placeholder"></div>
+        </div>
+    </div>
+    <div id="content">
         Newton
         <div class="demo-container">
             <div id="newtongraph" class="demo-placeholder"></div>
@@ -62,7 +68,7 @@ span.superscript {
                 }
             });
 
-            for (var nr = 6; nr < 7; nr++) {
+            for (var nr = 1; nr <= 7; nr++) {
                 var polinom = getPolinom(2, nr, 7);
                 var d1 = [];
                 for (var i = -3.2; i <= 2.9; i += 0.1) {
@@ -72,6 +78,33 @@ span.superscript {
             }
 
             $.plot("#graph", d);
+			showMNKGraphError();
+
+        }
+    var showMNKGraphError = function() {
+
+            var d = [];
+
+            var data = [
+                [-3.2, 10],
+                [-2.1, -2],
+                [-0.4, 0],
+                [0.7, -7],
+                [2, 7],
+                [2.5, 0],
+                [2.777, 0]
+				];
+
+            for (var nr = 1; nr <= 7; nr++) {
+                var polinom = getPolinom(2, nr, 7);
+                var d1 = 0;
+                for (var i = 0; i < data.length; i++) {
+					var temp = data[i][1] - getYpoint(polinom, data[i][0]);
+					d1 += temp * temp;
+                }
+                d.push([nr, d1]);
+            }
+            $.plot("#errorgraph", [d], {series: {lines: { show: true }, points: { show: true }},xaxis: {ticks: [1, 2, 3, 4, 5, 6, 7]}});
 
         }
         /**
